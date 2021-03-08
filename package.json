@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build_windows": "powershell -ExecutionPolicy ByPass -File .\\build\\win.ps1",
-    "build_ubuntu": "bash build/ubuntu.sh",
-    "start_dev": "webpack-dev-server"
+    "build:proj": "node ./build.js triangle",
+    "build:all": "node ./build.js all"
   },
   "repository": {
     "type": "git",
@@ -20,12 +18,12 @@
   },
   "homepage": "https://github.com/pheihuihui/diaries#readme",
   "devDependencies": {
-    "@types/node": "^14.14.10",
-    "html-webpack-plugin": "^4.5.0",
-    "ts-loader": "^8.0.11",
-    "ts-node": "^9.1.0",
-    "typescript": "^4.1.2",
-    "webpack": "^5.9.0",
-    "webpack-cli": "^4.2.0"
+    "@types/fs-extra": "^9.0.8",
+    "@types/node": "^14.14.31",
+    "esbuild": "^0.8.54",
+    "fs-extra": "^9.1.0",
+    "ts-loader": "^8.0.17",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.2"
   }
 }
