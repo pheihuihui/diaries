@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "node ./server.js",
     "build:proj": "node ./build.js triangle",
     "build:all": "node ./build.js all"
   },
@@ -19,11 +20,12 @@
   "homepage": "https://github.com/pheihuihui/diaries#readme",
   "devDependencies": {
     "@types/fs-extra": "^9.0.8",
-    "@types/node": "^14.14.31",
-    "esbuild": "^0.8.54",
+    "@types/node": "^14.14.32",
+    "esbuild": "^0.8.57",
+    "express": "^4.17.1",
     "fs-extra": "^9.1.0",
     "ts-loader": "^8.0.17",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.2"
+    "typescript": "^4.2.3"
   }
 }
