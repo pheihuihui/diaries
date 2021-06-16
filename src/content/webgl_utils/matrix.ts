@@ -1,12 +1,16 @@
 export class Matrix4 {
     elements: Float32Array
 
+    printElements() {
+        [0, 1, 2, 3].forEach(v => {
+            let line = [v, v + 4, v + 8, v + 12].map(u => this.elements[u])
+            console.log(line)
+        })
+    }
+
     constructor(matrix?: number[]) {
         if (matrix) {
-            let arr = new Float32Array()
-            for (let i = 0; i < 16; i++) {
-                arr[i] = matrix[i];
-            }
+            let arr = new Float32Array(matrix)
             this.elements = arr
         } else {
             this.elements = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])
@@ -496,9 +500,7 @@ export class Vector3 {
     constructor(vec3?: number[]) {
         let eles = new Float32Array(3)
         if (vec3) {
-            eles[0] = vec3[0]
-            eles[1] = vec3[1]
-            eles[2] = vec3[2]
+            eles = new Float32Array(vec3)
         }
         this.elements = eles
     }
@@ -524,10 +526,7 @@ export class Vector4 {
     constructor(vec4?: number[]) {
         let eles = new Float32Array(4)
         if (vec4) {
-            eles[0] = vec4[0]
-            eles[1] = vec4[1]
-            eles[2] = vec4[2]
-            eles[3] = vec4[3]
+            eles = new Float32Array(vec4)
         }
         this.elements = eles
     }

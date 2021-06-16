@@ -3,7 +3,7 @@ import { copyFile, readdir, stat, statSync, readdirSync, mkdirSync } from 'fs-ex
 
 const content_dir = './src/content'
 const resource_dir = './src/resources'
-const resource_static_types = ['txt', 'glsl', 'html', 'css', 'ico', 'png', 'gif']
+const resource_static_types = ['txt', 'glsl', 'html', 'css', 'ico', 'png', 'gif', 'frag', 'vert']
 const resource_dynamic_types = ['ts', 'js', 'tsx', 'jsx']
 const dist_dir = './dist'
 

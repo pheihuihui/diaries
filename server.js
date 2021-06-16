@@ -1,4 +1,6 @@
 const express = require('express')
 const app = express()
 app.use('/diaries', express.static('dist'))
-app.listen(3000)
+app.listen(8080)
+const op = require('open')
+op('http://127.0.0.1:8080/diaries')

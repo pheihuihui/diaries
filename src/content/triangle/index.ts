@@ -43,7 +43,7 @@ function animate(angle: number) {
     return newAngle %= 360
 }
 
-Promise.all([fetch('./vs.glsl'), fetch('./fs.glsl')])
+Promise.all([fetch('./vs.vert'), fetch('./fs.frag')])
     .then(vals => {
         Promise.all([vals[0].text(), vals[1].text()])
             .then(shaders => {
