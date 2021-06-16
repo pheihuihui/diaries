@@ -573,46 +573,230 @@
     return true;
   }
 
-  // src/content/triangle/index.ts
-  var ANGLE_STEP = 45;
+  // src/content/simplecube/index.ts
   function initVertexBuffers(gl) {
-    let vertices = new Float32Array([0, 0.5, -0.5, -0.5, 0.5, -0.5]);
-    let n = 3;
-    let vertexBuffer = gl.createBuffer();
-    if (!vertexBuffer) {
+    let vertices = new Float32Array([
+      1,
+      1,
+      1,
+      -1,
+      1,
+      1,
+      -1,
+      -1,
+      1,
+      1,
+      -1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      -1,
+      1,
+      1,
+      -1,
+      -1,
+      1,
+      1,
+      -1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      1,
+      1,
+      -1,
+      1,
+      1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      1,
+      -1,
+      1,
+      -1,
+      -1,
+      1,
+      1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      1,
+      1,
+      -1
+    ]);
+    let colors = new Float32Array([
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]);
+    let indices = new Uint8Array([
+      0,
+      1,
+      2,
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      4,
+      6,
+      7,
+      8,
+      9,
+      10,
+      8,
+      10,
+      11,
+      12,
+      13,
+      14,
+      12,
+      14,
+      15,
+      16,
+      17,
+      18,
+      16,
+      18,
+      19,
+      20,
+      21,
+      22,
+      20,
+      22,
+      23
+    ]);
+    let indexBuffer = gl.createBuffer();
+    if (!indexBuffer) {
+      return -1;
+    }
+    if (!initArrayBuffer(gl, vertices, 3, gl.FLOAT, "a_Position")) {
+      return -1;
+    }
+    if (!initArrayBuffer(gl, colors, 3, gl.FLOAT, "a_Color")) {
+      return -1;
+    }
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+    return indices.length;
+  }
+  function initArrayBuffer(gl, data, num, type, attribute) {
+    var buffer = gl.createBuffer();
+    if (!buffer) {
       console.log("Failed to create the buffer object");
-      return -1;
+      return false;
     }
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-    let a_Position = gl.getAttribLocation(window.gl_program, "a_Position");
-    console.log(a_Position);
-    if (a_Position < 0) {
-      console.log("Failed to get the storage location of a_Position");
-      return -1;
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    var a_attribute = gl.getAttribLocation(window.gl_program, attribute);
+    if (a_attribute < 0) {
+      console.log("Failed to get the storage location of " + attribute);
+      return false;
     }
-    gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(a_Position);
-    return n;
-  }
-  function draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix) {
-    modelMatrix.setRotate(currentAngle, 0, 0, 1);
-    gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLES, 0, n);
-  }
-  function animate(angle) {
-    let now = Date.now();
-    let elapsed = now - window.g_last;
-    window.g_last = now;
-    let newAngle = angle + ANGLE_STEP * elapsed / 1e3;
-    return newAngle %= 360;
+    gl.vertexAttribPointer(a_attribute, num, type, false, 0, 0);
+    gl.enableVertexAttribArray(a_attribute);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    return true;
   }
   Promise.all([fetch("./vs.vert"), fetch("./fs.frag")]).then((vals) => {
     Promise.all([vals[0].text(), vals[1].text()]).then((shaders) => {
       const VShader = shaders[0];
       const FShader = shaders[1];
-      window.g_last = Date.now();
       let canv = document.createElement("canvas");
       document.body.appendChild(canv);
       canv.width = 800;
@@ -622,17 +806,18 @@
         if (initShader(gl, VShader, FShader)) {
           let n = initVertexBuffers(gl);
           gl.clearColor(0, 0, 0, 1);
-          let u_ModelMatrix = gl.getUniformLocation(window.gl_program, "u_ModelMatrix");
-          let currentAngle = 0;
-          let modelMatrix = new Matrix4();
-          let tick = function() {
-            if (gl && u_ModelMatrix) {
-              currentAngle = animate(currentAngle);
-              draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix);
-              requestAnimationFrame(tick);
-            }
-          };
-          tick();
+          gl.enable(gl.DEPTH_TEST);
+          let u_MvpMatrix = gl.getUniformLocation(window.gl_program, "u_MvpMatrix");
+          if (!u_MvpMatrix) {
+            console.log("Failed to get the storage location of u_MvpMatrix");
+            return;
+          }
+          let mvpMatrix = new Matrix4();
+          mvpMatrix.setPerspective(30, 1, 1, 100);
+          mvpMatrix.lookAt(3, 3, 7, 0, 0, 0, 0, 1, 0);
+          gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements);
+          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+          gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
         }
       }
     });
